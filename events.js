@@ -75,6 +75,11 @@ jQuery(document).ready(function () {
     jQuery('.clear').click(function () {
         jQuery('.QuestionHolder').html('');
     });
+
+    var quiz = getQueryString('quiz');
+    if(!quiz || quiz == undefined) return;
+    startQuizByURL(quiz);
+
 });
 function StartInterests() {
     jQuery('.Gate').hide();
@@ -116,4 +121,19 @@ function PreLoadCommon() {
     for(i=0; i<=reqImages.length; i++) {
          preload_image_object.src = reqImages[i];
     }
+}
+function startQuizByURL(query){
+    if(query.match(/interests/i)){
+        console.log(query);
+        StartInterests();
+    } else if(query.match(/skills/i)){
+        console.log(query);
+        StartSkills();
+    }
+}
+function getQueryString( field, url ) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    var string = reg.exec(href);
+    return string ? string[1] : null;
 }
