@@ -50,6 +50,9 @@ var ResultsArray = new Array();
 for(tmp=0;tmp<10;tmp++){
 ResultsArray[tmp] = 0;
 }
+
+var quiz = getQueryString('quiz');
+if(!quiz || quiz == undefined) return;
 //end setup
 /* ResultsArray
 0=Administrative Support
@@ -76,11 +79,13 @@ jQuery(document).ready(function () {
         jQuery('.QuestionHolder').html('');
     });
 
-    var quiz = getQueryString('quiz');
-    if(!quiz || quiz == undefined) return;
     startQuizByURL(quiz);
-
 });
+
+window.addEventListener('load', function(){
+    startQuizByURL(quiz); //failsave quiz init
+});
+
 function StartInterests() {
     jQuery('.Gate').hide();
     jQuery('.StartInterests').show();
