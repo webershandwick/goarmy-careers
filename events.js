@@ -51,11 +51,10 @@ for(tmp=0;tmp<10;tmp++){
 ResultsArray[tmp] = 0;
 }
 
-var quiz = getQueryString('quiz');
-if(!quiz || quiz == undefined){
-    return;
-} 
+//store 'quiz' URL parameter
+var quiz = getQueryString('quiz');    
 //end setup
+
 /* ResultsArray
 0=Administrative Support
 1=Arts & Media
@@ -69,7 +68,6 @@ if(!quiz || quiz == undefined){
 9=Transportation & Aviation
 */
 
-
 jQuery(document).ready(function () {
     jQuery('.GateInterests a').click(function () {
         StartInterests();
@@ -80,12 +78,11 @@ jQuery(document).ready(function () {
     jQuery('.clear').click(function () {
         jQuery('.QuestionHolder').html('');
     });
-
-    startQuizByURL(quiz);
 });
 
 window.addEventListener('load', function(){
-    startQuizByURL(quiz); //failsave quiz init
+    if(!quiz || typeof quiz == undefined) return;
+    startQuizByURL(quiz);
 });
 
 function StartInterests() {
@@ -131,10 +128,8 @@ function PreLoadCommon() {
 }
 function startQuizByURL(query){
     if(query.match(/interests/i)){
-        console.log(query);
         StartInterests();
     } else if(query.match(/skills/i)){
-        console.log(query);
         StartSkills();
     }
 }
@@ -144,3 +139,18 @@ function getQueryString( field, url ) {
     var string = reg.exec(href);
     return string ? string[1] : null;
 }
+var blockQuizFouc = (function(){
+    /*if the quiz URL parameter is present,
+    output a stylesheet speedy quick to block FOUC*/
+    if(typeof quiz !== undefined && quiz && quiz.length){
+        var styleElement = document.createElement('style');
+        document.head.appendChild(styleElement);
+
+        var stylesheet = styleElement.sheet;
+
+        var styles = '.Gate {';
+        styles += 'display:none;';
+        styles += '}';
+        stylesheet.insertRule(styles, 0);
+    }
+}());
