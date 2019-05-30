@@ -52,7 +52,9 @@ ResultsArray[tmp] = 0;
 }
 
 var quiz = getQueryString('quiz');
-if(!quiz || quiz == undefined) return;
+if(!quiz || quiz == undefined){
+    return;
+} 
 //end setup
 /* ResultsArray
 0=Administrative Support
